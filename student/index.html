@@ -6,27 +6,32 @@
     <title>UniCart · Shop</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
     <style>
-        /* ===== CSS VARIABLES ===== */
+        /* ===== CSS VARIABLES - GREEN THEME ===== */
         :root {
-            --color-primary: #f97316;
-            --color-primary-dark: #ea580c;
-            --color-primary-light: #fb923c;
-            --color-secondary: #1a2a3a;
-            --color-bg: #f8f6f3;
+            --color-primary: #059669;
+            --color-primary-dark: #047857;
+            --color-primary-light: #34d399;
+            --color-primary-bg: #ecfdf5;
+            --color-secondary: #064e3b;
+            --color-bg: #f0fdf4;
             --color-bg-card: #ffffff;
-            --color-text: #1a1a2e;
-            --color-text-muted: #4a4a6a;
-            --color-text-light: #8a8a9e;
-            --color-border: #e8e6e1;
-            --color-green: #22c55e;
+            --color-text: #064e3b;
+            --color-text-muted: #065f46;
+            --color-text-light: #6b7280;
+            --color-border: #d1fae5;
+            --color-green: #059669;
             --color-red: #dc2626;
+            --color-red-bg: #fee2e2;
+            --color-orange: #f59e0b;
+            --color-orange-bg: #fef3c7;
             --color-purple: #8b5cf6;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.08);
-            --shadow-xl: 0 30px 80px rgba(0, 0, 0, 0.10);
+            --color-purple-bg: #ede9fe;
+            --shadow-sm: 0 2px 8px rgba(5, 150, 105, 0.06);
+            --shadow-md: 0 8px 30px rgba(5, 150, 105, 0.08);
+            --shadow-lg: 0 20px 60px rgba(5, 150, 105, 0.10);
+            --shadow-xl: 0 30px 80px rgba(5, 150, 105, 0.12);
             --radius-sm: 8px;
             --radius-md: 16px;
             --radius-lg: 24px;
@@ -81,13 +86,13 @@
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            border-bottom: 1px solid rgba(5, 150, 105, 0.08);
             padding: 12px 0;
             transition: box-shadow 0.3s;
         }
 
         .navbar.scrolled {
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 30px rgba(5, 150, 105, 0.06);
         }
 
         .nav-container {
@@ -155,6 +160,22 @@
             justify-content: center;
         }
 
+        .btn-back {
+            background: var(--color-secondary);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-back:hover {
+            background: var(--color-primary);
+            transform: translateY(-2px);
+        }
+
         /* ===== STORE HEADER ===== */
         .store-header {
             padding: 20px 0 10px;
@@ -189,7 +210,7 @@
 
         .search-box-wrapper:focus-within {
             border-color: var(--color-primary);
-            box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
         }
 
         .search-box-wrapper .search-icon {
@@ -400,7 +421,7 @@
         }
 
         .product-stock-status.low-stock {
-            color: var(--color-primary);
+            color: var(--color-orange);
         }
 
         .product-stock-status.out-of-stock {
@@ -549,6 +570,7 @@
             font-weight: 700;
             font-size: 1.1rem;
             margin-bottom: 4px;
+            color: var(--color-text);
         }
 
         .request-card p {
@@ -720,7 +742,7 @@
             transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             display: flex;
             flex-direction: column;
-            box-shadow: -8px 0 40px rgba(0, 0, 0, 0.08);
+            box-shadow: -8px 0 40px rgba(5, 150, 105, 0.08);
         }
 
         .cart-sidebar.open {
@@ -905,7 +927,7 @@
             color: rgba(255, 255, 255, 0.7);
             padding: 40px 0 20px;
             margin-top: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(5, 150, 105, 0.15);
         }
 
         .footer-grid {
@@ -922,7 +944,7 @@
         }
 
         .footer-brand .brand-name span {
-            color: var(--color-primary);
+            color: var(--color-primary-light);
         }
 
         .footer-tagline {
@@ -1109,11 +1131,13 @@
         <div class="nav-container">
             <div class="nav-brand">
                 <a href="index.html">
-                    <img src="https://github.com/Teamhacks9/CampusCart/blob/main/images/logo1.png" alt="UniCart" class="brand-logo-img" />
+                    <!-- ===== YOUR LOGO ===== -->
+                    <img src="https://raw.githubusercontent.com/Teamhacks9/CampusCart/main/images/logo1.png" alt="UniCart" class="brand-logo-img" onerror="this.style.display='none'" />
                 </a>
                 <a href="index.html" class="brand-name">Uni<span>Cart</span></a>
             </div>
             <div class="nav-actions">
+                <a href="index.html" class="btn-back">← <span>Back</span></a>
                 <div class="cart-icon" id="cartIcon">
                     🛒
                     <span class="cart-badge" id="cartBadge">0</span>
@@ -1218,7 +1242,7 @@
                 <div class="footer-links">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="#hero">Home</a></li>
+                        <li><a href="index.html">Home</a></li>
                         <li><a href="#features">Features</a></li>
                         <li><a href="#about">About</a></li>
                     </ul>
@@ -1233,7 +1257,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <span>© 2026 Campus Store. All rights reserved.</span>
+                <span>© 2026 UniCart. All rights reserved.</span>
                 <span>Hackathon Project</span>
             </div>
         </div>
@@ -1929,7 +1953,7 @@
         updateCart();
         renderRequests();
 
-        console.log('🏪 Campus Store — Full Shop Experience');
+        console.log('🏪 UniCart — Full Shop Experience');
         console.log('📦 Products loaded:', products.length);
         console.log('📋 Requests loaded:', requestedItems.length);
         console.log('🔍 Press Ctrl+K to focus search');
