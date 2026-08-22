@@ -39,15 +39,12 @@
             margin-bottom: 28px;
         }
 
-        .login-header .brand-logo {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+        /* ===== LOGO STYLES ===== */
+        .brand-logo-img {
             width: 56px;
             height: 56px;
-            background: #059669;
+            object-fit: contain;
             border-radius: 14px;
-            font-size: 1.8rem;
             margin-bottom: 12px;
         }
 
@@ -295,6 +292,11 @@
             .credential-hint {
                 font-size: 0.7rem;
             }
+
+            .brand-logo-img {
+                width: 48px;
+                height: 48px;
+            }
         }
     </style>
 </head>
@@ -303,7 +305,11 @@
         <!-- ===== HEADER ===== -->
         <div class="login-header">
             <div style="display:flex; justify-content:center;">
-                <div class="brand-logo">🛍️</div>
+                <!-- ===== YOUR LOGO IMAGE ===== -->
+                <img src="https://raw.githubusercontent.com/Teamhacks9/CampusCart/main/images/logo1.png" 
+                     alt="UniCart" 
+                     class="brand-logo-img"
+                     onerror="this.style.display='none';this.outerHTML='<div class=\'brand-logo-img\' style=\'display:flex;align-items:center;justify-content:center;width:56px;height:56px;background:#059669;border-radius:14px;font-size:1.8rem;margin:0 auto 12px;\'>🛍️</div>'" />
             </div>
             <h1>Uni<span>Cart</span></h1>
             <p>Sign in to your account</p>
@@ -549,7 +555,7 @@
                 if (userData.role === 'student') {
                     window.location.href = '../student/index.html';
                 } else if (userData.role === 'shopkeeper') {
-                    window.location.href = 'shopkeeper/index.html';
+                    window.location.href = '../shopkeeper/index.html';
                 }
             } catch (e) {
                 sessionStorage.removeItem('loggedInUser');
@@ -562,7 +568,7 @@
 
         updateCredentialHint();
 
-        console.log('🔐 Campus Store — Login System');
+        console.log('🔐 UniCart — Login System');
         console.log('🎓 Student accounts:', Object.keys(users.student));
         console.log('🏪 Shopkeeper accounts:', Object.keys(users.shopkeeper));
         console.log('💡 Press "1" for Student, "2" for Shopkeeper');
