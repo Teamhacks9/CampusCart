@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>UniCart· Smarter Campus Shopping</title>
+    <title>UniCart · Smarter Campus Shopping</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
@@ -100,6 +100,8 @@
             font-size: 1rem;
             transition: var(--transition);
             box-shadow: 0 4px 14px rgba(249, 115, 22, 0.25);
+            text-align: center;
+            text-decoration: none;
         }
 
         .btn-primary:hover {
@@ -122,6 +124,8 @@
             border: 2px solid var(--color-secondary);
             font-size: 1rem;
             transition: var(--transition);
+            text-align: center;
+            text-decoration: none;
         }
 
         .btn-secondary:hover {
@@ -143,6 +147,8 @@
             font-weight: 600;
             font-size: 0.9rem;
             transition: var(--transition);
+            display: inline-block;
+            text-decoration: none;
         }
 
         .btn-login:hover {
@@ -372,6 +378,8 @@
             cursor: pointer;
             transition: 0.2s;
             min-height: 52px;
+            display: inline-block;
+            text-decoration: none;
         }
 
         .mobile-menu .mobile-login .btn-login-mobile:hover {
@@ -1202,17 +1210,11 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-brand">
-                <!-- ===== YOUR LOGO IMAGE ===== -->
-                <!-- Replace the URL below with your actual logo URL -->
-                <!-- ===== CORRECT LOGO URL ===== -->
-            <img src="https://raw.githubusercontent.com/Teamhacks9/CampusCart/main/images/logo1.png" 
-                 alt="UniCart" 
-                 class="brand-logo-img" 
-                 onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex';" />
-            <!-- Fallback logo if image fails to load -->
-            <div id="logoFallback" class="brand-logo-img-error" style="display:none;">🛍️</div>
-            <span class="brand-name">Uni<span>Cart</span></span>
-        </div>
+                <!-- ===== FIXED LOGO URL (RAW GITHUB URL) ===== -->
+                <img src="https://raw.githubusercontent.com/Teamhacks9/CampusCart/main/images/logo1.png" 
+                     alt="Campus Store" 
+                     class="brand-logo-img" 
+                     onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex';" />
                 <!-- Fallback logo if image fails to load -->
                 <div id="logoFallback" class="brand-logo-img-error" style="display:none;">🛍️</div>
                 <span class="brand-name">Uni<span>Cart</span></span>
@@ -1237,7 +1239,10 @@
     <div class="mobile-menu" id="mobileMenu">
         <!-- Mobile menu logo -->
         <div class="mobile-brand">
-            <img src="https://raw.githubusercontent.com/Teamhacks9/CampusCart/main/images/logo.png" alt="Campus Store" class="brand-logo-img" onerror="this.style.display='none'" />
+            <img src="https://raw.githubusercontent.com/Teamhacks9/CampusCart/main/images/logo1.png" 
+                 alt="Campus Store" 
+                 class="brand-logo-img" 
+                 onerror="this.style.display='none'" />
             <span class="brand-name">Uni<span>Cart</span></span>
         </div>
         <a href="#hero">🏠 Home</a>
@@ -1276,7 +1281,7 @@
                     </div>
                 </div>
                 <div class="hero-actions">
-                    <button class="btn-primary" id="exploreBtn">Explore the Store →</button>
+                    <a href="login/" class="btn-primary" id="exploreBtn">Explore the Store →</a>
                     <button class="btn-secondary" id="howItWorksBtn">How It Works</button>
                 </div>
             </div>
@@ -1434,7 +1439,7 @@
             <div class="cta-content">
                 <h2>Your Campus Store.<br />Now Smarter.</h2>
                 <p>Check. Order. Pick Up. It's that simple.</p>
-                <button class="btn-primary" id="getStartedBtn" style="font-size:1.1rem; padding: 16px 48px;">Get Started →</button>
+                <a href="login/" class="btn-primary" id="getStartedBtn" style="font-size:1.1rem; padding: 16px 48px; display:inline-block; text-decoration:none;">Get Started →</a>
             </div>
         </div>
     </section>
@@ -1509,11 +1514,6 @@
             window.location.href = 'login/';
         });
 
-        // ===== EXPLORE STORE =====
-        document.getElementById('exploreBtn').addEventListener('click', function() {
-            window.location.href = 'login/';
-        });
-
         // ===== HOW IT WORKS =====
         document.getElementById('howItWorksBtn').addEventListener('click', () => {
             document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' });
@@ -1521,11 +1521,6 @@
 
         // ===== VIEW CART =====
         document.getElementById('viewCartBtn').addEventListener('click', () => alert('Your cart is empty. Add some items first!'));
-
-        // ===== GET STARTED =====
-        document.getElementById('getStartedBtn').addEventListener('click', function() {
-            window.location.href = 'login/';
-        });
 
         // ===== SMOOTH SCROLL =====
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1538,9 +1533,8 @@
             });
         });
 
-        console.log('🏫 Campus Store — Smarter Campus Shopping');
+        console.log('🏫 UniCart — Smarter Campus Shopping');
         console.log('✨ Premium design with custom logo support');
-        console.log('🔗 All CTAs redirect to login page');
     </script>
 </body>
 </html>
