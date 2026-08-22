@@ -355,7 +355,7 @@
         <div class="login-footer">
             Don't have an account? <a href="#">Sign up</a>
             <br />
-            <a href="index.html" class="back-home">← Back to Home</a>
+            <a href="../index.html" class="back-home">← Back to Home</a>
         </div>
     </div>
 
@@ -517,7 +517,7 @@
 
             // ===== REDIRECT BASED ON ROLE =====
             if (user.role === 'student') {
-                window.location.href = 'student/index.html';
+                window.location.href = '../index.html';  // Go to root index.html
             } else if (user.role === 'shopkeeper') {
                 window.location.href = 'shopkeeper/index.html';
             }
@@ -547,7 +547,7 @@
             try {
                 const userData = JSON.parse(existingUser);
                 if (userData.role === 'student') {
-                    window.location.href = 'student/index.html';
+                    window.location.href = '../index.html';
                 } else if (userData.role === 'shopkeeper') {
                     window.location.href = 'shopkeeper/index.html';
                 }
@@ -566,8 +566,7 @@
         console.log('🎓 Student accounts:', Object.keys(users.student));
         console.log('🏪 Shopkeeper accounts:', Object.keys(users.shopkeeper));
         console.log('💡 Press "1" for Student, "2" for Shopkeeper');
-        console.log('📝 Usernames are case-sensitive');
-        console.log('📍 Redirecting to: student/index.html for students');
+        console.log('📍 Redirecting to: ../index.html for students');
     </script>
 </body>
 </html>
