@@ -419,13 +419,11 @@
         // ===== DOM ELEMENTS =====
         // ============================================================
 
-        const roleSelector = document.getElementById('roleSelector');
         const roleButtons = document.querySelectorAll('.role-option');
         const usernameInput = document.getElementById('username');
         const passwordInput = document.getElementById('password');
         const loginForm = document.getElementById('loginForm');
         const errorMessage = document.getElementById('errorMessage');
-        const credentialHint = document.getElementById('credentialHint');
         const hintText = document.getElementById('hintText');
 
         let selectedRole = 'student';
@@ -488,7 +486,6 @@
                 return;
             }
 
-            // Get the user database for the selected role
             const userDB = users[selectedRole];
             if (!userDB) {
                 errorMessage.textContent = '⚠️ Invalid role selected.';
@@ -496,7 +493,6 @@
                 return;
             }
 
-            // Check if user exists and password matches
             const user = userDB[username];
             if (!user) {
                 errorMessage.textContent = `⚠️ Username "${username}" not found. Please check your username or select the correct role.`;
@@ -511,7 +507,6 @@
             }
 
             // ===== SUCCESSFUL LOGIN =====
-            // Store user info in session storage for the dashboard
             const userData = {
                 username: username,
                 name: user.name,
@@ -520,11 +515,11 @@
             };
             sessionStorage.setItem('loggedInUser', JSON.stringify(userData));
 
-            // Redirect based on role
+            // ===== REDIRECT BASED ON ROLE =====
             if (user.role === 'student') {
                 window.location.href = 'student/index.html';
             } else if (user.role === 'shopkeeper') {
-                window.location.href = '';
+                window.location.href = 'shopkeeper/index.html';
             }
         });
 
@@ -533,7 +528,6 @@
         // ============================================================
 
         document.addEventListener('keydown', function(e) {
-            // Press '1' for Student role, '2' for Shopkeeper role
             if (e.key === '1' && !e.ctrlKey && !e.metaKey) {
                 const studentBtn = document.querySelector('[data-role="student"]');
                 if (studentBtn) studentBtn.click();
@@ -548,18 +542,16 @@
         // ===== CHECK FOR EXISTING SESSION =====
         // ============================================================
 
-        // If user is already logged in, redirect to appropriate page
         const existingUser = sessionStorage.getItem('loggedInUser');
         if (existingUser) {
             try {
                 const userData = JSON.parse(existingUser);
                 if (userData.role === 'student') {
-                    window.location.href = 'student-dashboard.html';
+                    window.location.href = 'student/index.html';
                 } else if (userData.role === 'shopkeeper') {
-                    window.location.href = 'shopkeeper-dashboard.html';
+                    window.location.href = 'shopkeeper/index.html';
                 }
             } catch (e) {
-                // Invalid session data, clear it
                 sessionStorage.removeItem('loggedInUser');
             }
         }
@@ -575,11 +567,7 @@
         console.log('🏪 Shopkeeper accounts:', Object.keys(users.shopkeeper));
         console.log('💡 Press "1" for Student, "2" for Shopkeeper');
         console.log('📝 Usernames are case-sensitive');
-
-        // Pre-fill with demo credentials for quick testing
-        // You can uncomment this for development
-        // usernameInput.value = 'aryan.cse26';
-        // passwordInput.value = 'student123';
+        console.log('📍 Redirecting to: student/index.html for students');
     </script>
 </body>
 </html>
