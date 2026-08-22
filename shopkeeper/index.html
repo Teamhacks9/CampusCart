@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Shopkeeper Dashboard · Campus Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== CSS VARIABLES - White & Green Theme ===== */
+        :root {
+            --color-primary: #059669;
+            --color-primary-dark: #047857;
+            --color-primary-light: #34d399;
+            --color-primary-bg: #ecfdf5;
+            --color-secondary: #064e3b;
+            --color-bg: #f8f9fa;
+            --color-bg-card: #ffffff;
+            --color-text: #1a1a2e;
+            --color-text-muted: #4a4a6a;
+            --color-text-light: #8a8a9e;
+            --color-border: #e8e6e1;
+            --color-green: #059669;
+            --color-green-bg: #ecfdf5;
+            --color-red: #dc2626;
+            --color-red-bg: #fee2e2;
+            --color-orange: #f59e0b;
+            --color-orange-bg: #fef3c7;
+            --color-purple: #7c3aed;
+            --color-purple-bg: #ede9fe;
+            --shadow-sm: 0 2px 8px rgba(5, 150, 105, 0.06);
+            --shadow-md: 0 8px 30px rgba(5, 150, 105, 0.08);
+            --shadow-lg: 0 20px 60px rgba(5, 150, 105, 0.10);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* ===== HEADER ===== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #ffffff;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo {
+            width: 32px;
+            height: 32px;
+            background: var(--color-primary);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .brand-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--color-text);
+        }
+
+        .brand-name span {
+            color: var(--color-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--color-bg);
+            padding: 6px 16px 6px 10px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--color-border);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .user-name {
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .btn-logout {
+            background: transparent;
+            color: var(--color-text-muted);
+            border: 1px solid var(--color-border);
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .btn-logout:hover {
+            background: var(--color-red);
+            color: #fff;
+            border-color: var(--color-red);
+        }
+
+        /* ===== DASHBOARD HEADER ===== */
+        .dashboard-header {
+            padding: 24px 0 16px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .dashboard-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .dashboard-header p {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            padding: 20px 0;
+        }
+
+        .stat-card {
+            background: var(--color-bg-card);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 1.6rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--color-text);
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            font-weight: 500;
+        }
+
+        /* ===== DASHBOARD LAYOUT ===== */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 24px;
+            padding-bottom: 40px;
+        }
+
+        /* ===== TABS ===== */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--color-bg-card);
+            border-radius: var(--radius-md);
+            padding: 4px;
+            border: 1px solid var(--color-border);
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 10px 24px;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--color-text);
+            background: var(--color-bg);
+        }
+
+        .tab-btn.active {
+            background: var(--color-primary);
+            color: #fff;
+        }
+
+        /* ===== ADD PRODUCT SECTION ===== */
+        .add-product-section {
+            background: var(--color-bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+        }
+
+        .add-product-section h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-product-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        .add-product-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .add-product-form .form-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-text-muted);
+        }
+
+        .add-product-form .form-group input,
+        .add-product-form .form-group select {
+            padding: 8px 12px;
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-family: inherit;
+            transition: var(--transition);
+            background: var(--color-bg);
+        }
+
+        .add-product-form .form-group input:focus,
+        .add-product-form .form-group select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: #fff;
+        }
+
+        .btn-add-product {
+            padding: 8px 24px;
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            height: 40px;
+            align-self: end;
+        }
+
+        .btn-add-product:hover {
+            background: var(--color-primary-dark);
+        }
+
+        /* ===== TABLE ===== */
+        .table-container {
+            background: var(--color-bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-header {
+            padding: 14px 20px;
+            background: var(--color-bg);
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .table-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .table-header .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            padding: 4px 16px;
+        }
+
+        .table-header .search-box input {
+            border: none;
+            background: transparent;
+            font-size: 0.85rem;
+            outline: none;
+            font-family: inherit;
+            padding: 6px 0;
+            min-width: 160px;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        thead {
+            background: var(--color-bg);
+        }
+
+        th {
+            text-align: left;
+            padding: 10px 16px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--color-border);
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background: var(--color-bg);
+        }
+
+        .product-emoji {
+            font-size: 1.4rem;
+        }
+
+        .stock-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .stock-badge.in-stock {
+            background: var(--color-green-bg);
+            color: var(--color-green);
+        }
+
+        .stock-badge.low-stock {
+            background: var(--color-orange-bg);
+            color: var(--color-orange);
+        }
+
+        .stock-badge.out-of-stock {
+            background: var(--color-red-bg);
+            color: var(--color-red);
+        }
+
+        .stock-control {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stock-control input {
+            width: 55px;
+            padding: 4px 8px;
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            text-align: center;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .stock-control input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .btn-update {
+            padding: 4px 14px;
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.7rem;
+            transition: var(--transition);
+        }
+
+        .btn-update:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: var(--color-red);
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            transition: var(--transition);
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.2);
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-card {
+            background: var(--color-bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sidebar-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-card h3 .badge {
+            background: var(--color-primary);
+            color: #fff;
+            font-size: 0.6rem;
+            padding: 2px 10px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+        }
+
+        /* ===== REQUESTED ITEMS ===== */
+        .request-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .request-item:last-child {
+            border-bottom: none;
+        }
+
+        .request-item .req-emoji {
+            font-size: 1.4rem;
+        }
+
+        .request-item .req-info {
+            flex: 1;
+        }
+
+        .request-item .req-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .request-item .req-count {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+
+        .request-item .req-votes {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--color-primary);
+        }
+
+        .request-item .btn-add-stock {
+            padding: 4px 14px;
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.7rem;
+            transition: var(--transition);
+        }
+
+        .request-item .btn-add-stock:hover {
+            background: var(--color-primary-dark);
+        }
+
+        /* ===== RECENT ORDERS ===== */
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item .order-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .order-item .order-status.pending {
+            background: var(--color-orange);
+        }
+
+        .order-item .order-status.preparing {
+            background: var(--color-purple);
+        }
+
+        .order-item .order-status.ready {
+            background: var(--color-green);
+        }
+
+        .order-item .order-info {
+            flex: 1;
+        }
+
+        .order-item .order-info .order-id {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .order-item .order-info .order-details {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+
+        .order-item .order-time {
+            font-size: 0.7rem;
+            color: var(--color-text-light);
+        }
+
+        .order-item .order-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .order-item .order-actions button {
+            padding: 4px 10px;
+            border: none;
+            border-radius: var(--radius-full);
+            font-size: 0.65rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .order-item .order-actions .btn-prepare {
+            background: var(--color-purple-bg);
+            color: var(--color-purple);
+        }
+
+        .order-item .order-actions .btn-prepare:hover {
+            background: var(--color-purple);
+            color: #fff;
+        }
+
+        .order-item .order-actions .btn-ready {
+            background: var(--color-green-bg);
+            color: var(--color-green);
+        }
+
+        .order-item .order-actions .btn-ready:hover {
+            background: var(--color-green);
+            color: #fff;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--color-secondary);
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: var(--radius-full);
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+            font-size: 0.9rem;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .add-product-form {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .add-product-form .btn-add-product {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .add-product-form {
+                grid-template-columns: 1fr;
+            }
+
+            .add-product-form .btn-add-product {
+                grid-column: span 1;
+                width: 100%;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .table-header .search-box {
+                width: 100%;
+            }
+
+            .table-header .search-box input {
+                min-width: 100%;
+            }
+
+            .user-name {
+                display: none;
+            }
+
+            .nav-actions .btn-logout span {
+                display: none;
+            }
+
+            .stat-card .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 14px 16px;
+            }
+
+            .stat-card .stat-number {
+                font-size: 1.2rem;
+            }
+
+            .stat-card .stat-label {
+                font-size: 0.7rem;
+            }
+
+            .tab-btn {
+                font-size: 0.75rem;
+                padding: 6px 14px;
+            }
+
+            th,
+            td {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+            }
+
+            .stock-control input {
+                width: 40px;
+                padding: 2px 4px;
+                font-size: 0.7rem;
+            }
+
+            .btn-update {
+                padding: 2px 10px;
+                font-size: 0.6rem;
+            }
+
+            .brand-name {
+                font-size: 1rem;
+            }
+
+            .brand-logo {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-logo">🛍️</div>
+                <span class="brand-name">Campus<span>Store</span></span>
+            </div>
+            <div class="nav-actions">
+                <div class="user-badge">
+                    <div class="user-avatar">S</div>
+                    <span class="user-name">Shopkeeper</span>
+                </div>
+                <a href="../index.html" class="btn-logout"><span>Logout</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- ===== DASHBOARD HEADER ===== -->
+        <div class="dashboard-header">
+            <h1>🏪 Shopkeeper Dashboard</h1>
+            <p>Manage your inventory, track orders, and update stock easily.</p>
+        </div>
+
+        <!-- ===== STATS ===== -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-icon">📦</span>
+                <div class="stat-number" id="totalProducts">0</div>
+                <div class="stat-label">Total Products</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">⚠️</span>
+                <div class="stat-number" id="lowStockCount">0</div>
+                <div class="stat-label">Low Stock Items</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">📋</span>
+                <div class="stat-number" id="pendingOrders">0</div>
+                <div class="stat-label">Pending Orders</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">📝</span>
+                <div class="stat-number" id="requestCount">0</div>
+                <div class="stat-label">Item Requests</div>
+            </div>
+        </div>
+
+        <!-- ===== DASHBOARD ===== -->
+        <div class="dashboard">
+
+            <!-- ===== MAIN CONTENT ===== -->
+            <div class="main-content">
+
+                <!-- ===== TABS ===== -->
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="inventory">📦 Inventory</button>
+                    <button class="tab-btn" data-tab="orders">📋 Orders</button>
+                </div>
+
+                <!-- ===== INVENTORY TAB ===== -->
+                <div id="inventoryTab">
+                    <!-- Add Product -->
+                    <div class="add-product-section">
+                        <h3>➕ Add New Product</h3>
+                        <div class="add-product-form">
+                            <div class="form-group">
+                                <label>Product Name</label>
+                                <input type="text" id="newProductName" placeholder="e.g. Maggi Noodles" />
+                            </div>
+                            <div class="form-group">
+                                <label>Emoji</label>
+                                <input type="text" id="newProductEmoji" placeholder="🍜" maxlength="2" />
+                            </div>
+                            <div class="form-group">
+                                <label>Price (₹)</label>
+                                <input type="number" id="newProductPrice" placeholder="20" />
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <input type="text" id="newProductCategory" placeholder="Snacks" />
+                            </div>
+                            <div class="form-group">
+                                <label>Initial Stock</label>
+                                <input type="number" id="newProductStock" placeholder="10" />
+                            </div>
+                            <button class="btn-add-product" id="addProductBtn">Add Product</button>
+                        </div>
+                    </div>
+
+                    <!-- Product Table -->
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>📦 Inventory Management</h3>
+                            <div class="search-box">
+                                <span>🔍</span>
+                                <input type="text" id="inventorySearch" placeholder="Search products..." />
+                            </div>
+                        </div>
+                        <div class="table-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Status</th>
+                                        <th>Update</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inventoryTableBody">
+                                    <!-- Rendered by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== ORDERS TAB ===== -->
+                <div id="ordersTab" style="display:none;">
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>📋 Order Management</h3>
+                            <div class="search-box">
+                                <span>🔍</span>
+                                <input type="text" id="orderSearch" placeholder="Search orders..." />
+                            </div>
+                        </div>
+                        <div class="table-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Items</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Time</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTableBody">
+                                    <!-- Rendered by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SIDEBAR ===== -->
+            <div class="sidebar">
+
+                <!-- ===== REQUESTED ITEMS ===== -->
+                <div class="sidebar-card">
+                    <h3>📋 Requested Items <span class="badge" id="sidebarRequestCount">0</span></h3>
+                    <p style="font-size:0.8rem;color:var(--color-text-muted);margin-bottom:10px;">
+                        Students want these. Click to add to inventory.
+                    </p>
+                    <div id="requestedItemsList">
+                        <!-- Rendered by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- ===== RECENT ORDERS ===== -->
+                <div class="sidebar-card">
+                    <h3>🕐 Recent Orders</h3>
+                    <div id="recentOrdersList">
+                        <!-- Rendered by JavaScript -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================================
+        // ===== DATA =====
+        // ============================================================
+
+        let products = [{
+            id: 1,
+            name: 'Maggi Noodles',
+            emoji: '🍜',
+            price: 20,
+            category: 'Snacks',
+            stock: 45
+        }, {
+            id: 2,
+            name: 'Coca-Cola',
+            emoji: '🥤',
+            price: 40,
+            category: 'Beverages',
+            stock: 8
+        }, {
+            id: 3,
+            name: 'Notebook',
+            emoji: '📓',
+            price: 50,
+            category: 'Stationery',
+            stock: 30
+        }, {
+            id: 4,
+            name: 'Lays Chips',
+            emoji: '🍟',
+            price: 20,
+            category: 'Snacks',
+            stock: 5
+        }, {
+            id: 5,
+            name: 'Energy Drink',
+            emoji: '⚡',
+            price: 60,
+            category: 'Beverages',
+            stock: 12
+        }, {
+            id: 6,
+            name: 'Sandwich',
+            emoji: '🥪',
+            price: 45,
+            category: 'Food',
+            stock: 0
+        }, {
+            id: 7,
+            name: 'Water Bottle',
+            emoji: '💧',
+            price: 15,
+            category: 'Beverages',
+            stock: 50
+        }, {
+            id: 8,
+            name: 'Protein Bar',
+            emoji: '🍫',
+            price: 35,
+            category: 'Snacks',
+            stock: 3
+        }];
+
+        let orders = [{
+            id: 101,
+            items: ['Maggi ×2', 'Coke ×1'],
+            total: 80,
+            status: 'pending',
+            time: '10:30 AM'
+        }, {
+            id: 102,
+            items: ['Notebook ×1', 'Pen ×3'],
+            total: 75,
+            status: 'preparing',
+            time: '10:45 AM'
+        }, {
+            id: 103,
+            items: ['Sandwich ×1', 'Water ×1'],
+            total: 60,
+            status: 'ready',
+            time: '11:00 AM'
+        }, {
+            id: 104,
+            items: ['Energy Drink ×2'],
+            total: 120,
+            status: 'pending',
+            time: '11:15 AM'
+        }];
+
+        let requestedItems = [
+            { id: 1, name: 'Diet Coke', emoji: '🥤', votes: 5 },
+            { id: 2, name: 'Pizza Slice', emoji: '🍕', votes: 3 },
+            { id: 3, name: 'Milk Shake', emoji: '🥛', votes: 2 },
+            { id: 4, name: 'Pasta', emoji: '🍝', votes: 4 },
+        ];
+
+        let nextProductId = 9;
+        let nextOrderId = 105;
+
+        // ============================================================
+        // ===== DOM ELEMENTS =====
+        // ============================================================
+
+        const inventoryTableBody = document.getElementById('inventoryTableBody');
+        const ordersTableBody = document.getElementById('ordersTableBody');
+        const requestedItemsList = document.getElementById('requestedItemsList');
+        const recentOrdersList = document.getElementById('recentOrdersList');
+        const inventorySearch = document.getElementById('inventorySearch');
+        const orderSearch = document.getElementById('orderSearch');
+        const toast = document.getElementById('toast');
+
+        const totalProductsEl = document.getElementById('totalProducts');
+        const lowStockCountEl = document.getElementById('lowStockCount');
+        const pendingOrdersEl = document.getElementById('pendingOrders');
+        const requestCountEl = document.getElementById('requestCount');
+        const sidebarRequestCount = document.getElementById('sidebarRequestCount');
+
+        const addProductBtn = document.getElementById('addProductBtn');
+        const tabs = document.querySelectorAll('.tab-btn');
+
+        // ============================================================
+        // ===== HELPER FUNCTIONS =====
+        // ============================================================
+
+        function getStockStatus(stock) {
+            if (stock === 0) return 'out-of-stock';
+            if (stock <= 5) return 'low-stock';
+            return 'in-stock';
+        }
+
+        function getStockLabel(stock) {
+            if (stock === 0) return 'Out of Stock';
+            if (stock <= 5) return 'Low Stock';
+            return 'In Stock';
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function updateStats() {
+            const total = products.length;
+            const lowStock = products.filter(p => p.stock > 0 && p.stock <= 5).length;
+            const pending = orders.filter(o => o.status === 'pending' || o.status === 'preparing').length;
+            const requests = requestedItems.length;
+
+            totalProductsEl.textContent = total;
+            lowStockCountEl.textContent = lowStock;
+            pendingOrdersEl.textContent = pending;
+            requestCountEl.textContent = requests;
+            sidebarRequestCount.textContent = requests;
+        }
+
+        // ============================================================
+        // ===== RENDER FUNCTIONS =====
+        // ============================================================
+
+        function renderInventory() {
+            const search = inventorySearch.value.toLowerCase().trim();
+            const filtered = products.filter(p =>
+                p.name.toLowerCase().includes(search) ||
+                p.category.toLowerCase().includes(search)
+            );
+
+            if (filtered.length === 0) {
+                inventoryTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align:center;padding:40px;color:var(--color-text-muted);">
+                            No products found. Add one above!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            inventoryTableBody.innerHTML = filtered.map(p => {
+                const status = getStockStatus(p.stock);
+                const statusLabel = getStockLabel(p.stock);
+                return `
+                    <tr>
+                        <td class="product-emoji">${p.emoji}</td>
+                        <td><strong>${p.name}</strong></td>
+                        <td>${p.category}</td>
+                        <td>₹${p.price}</td>
+                        <td>${p.stock}</td>
+                        <td><span class="stock-badge ${status}">${statusLabel}</span></td>
+                        <td>
+                            <div class="stock-control">
+                                <input type="number" id="stockInput_${p.id}" value="${p.stock}" min="0" />
+                                <button class="btn-update" data-id="${p.id}">Update</button>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn-delete" data-id="${p.id}">✕</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.btn-update').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.dataset.id);
+                    const input = document.getElementById(`stockInput_${id}`);
+                    const newStock = parseInt(input.value);
+                    if (!isNaN(newStock) && newStock >= 0) {
+                        updateStock(id, newStock);
+                    } else {
+                        showToast('⚠️ Please enter a valid stock number.');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.dataset.id);
+                    if (confirm('Are you sure you want to delete this product?')) {
+                        deleteProduct(id);
+                    }
+                });
+            });
+
+            updateStats();
+        }
+
+        function renderOrders() {
+            const search = orderSearch.value.toLowerCase().trim();
+            const filtered = orders.filter(o =>
+                o.id.toString().includes(search) ||
+                o.items.join(' ').toLowerCase().includes(search)
+            );
+
+            if (filtered.length === 0) {
+                ordersTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align:center;padding:40px;color:var(--color-text-muted);">
+                            No orders found.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const statusMap = {
+                'pending': { label: 'Pending', color: 'var(--color-orange)' },
+                'preparing': { label: 'Preparing', color: 'var(--color-purple)' },
+                'ready': { label: 'Ready', color: 'var(--color-green)' }
+            };
+
+            ordersTableBody.innerHTML = filtered.map(o => {
+                const status = statusMap[o.status] || statusMap.pending;
+                return `
+                    <tr>
+                        <td><strong>#${o.id}</strong></td>
+                        <td>${o.items.join(', ')}</td>
+                        <td>₹${o.total}</td>
+                        <td><span class="stock-badge" style="background:${status.color}20;color:${status.color};">${status.label}</span></td>
+                        <td>${o.time}</td>
+                        <td>
+                            <div style="display:flex;gap:4px;">
+                                ${o.status === 'pending' ? `<button class="btn-update" onclick="updateOrderStatus(${o.id}, 'preparing')" style="background:var(--color-purple);">Prepare</button>` : ''}
+                                ${o.status === 'preparing' ? `<button class="btn-update" onclick="updateOrderStatus(${o.id}, 'ready')" style="background:var(--color-green);">Ready</button>` : ''}
+                                ${o.status === 'ready' ? `<span style="color:var(--color-green);font-weight:600;">✓ Done</span>` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            updateStats();
+        }
+
+        function renderRequests() {
+            if (requestedItems.length === 0) {
+                requestedItemsList.innerHTML = `
+                    <div style="text-align:center;padding:20px 0;color:var(--color-text-muted);font-size:0.85rem;">
+                        No requests yet.
+                    </div>
+                `;
+                return;
+            }
+
+            const sorted = [...requestedItems].sort((a, b) => b.votes - a.votes);
+
+            requestedItemsList.innerHTML = sorted.map(item => `
+                <div class="request-item">
+                    <span class="req-emoji">${item.emoji}</span>
+                    <div class="req-info">
+                        <div class="req-name">${item.name}</div>
+                        <div class="req-count">${item.votes} students want this</div>
+                    </div>
+                    <button class="btn-add-stock" data-name="${item.name}" data-emoji="${item.emoji}">Add Stock</button>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.btn-add-stock').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const name = this.dataset.name;
+                    const emoji = this.dataset.emoji;
+                    addProductFromRequest(name, emoji);
+                });
+            });
+
+            updateStats();
+        }
+
+        function renderRecentOrders() {
+            const recent = orders.slice(0, 3);
+            if (recent.length === 0) {
+                recentOrdersList.innerHTML = `
+                    <div style="text-align:center;padding:20px 0;color:var(--color-text-muted);font-size:0.85rem;">
+                        No recent orders.
+                    </div>
+                `;
+                return;
+            }
+
+            const statusMap = {
+                'pending': { label: 'Pending', color: 'var(--color-orange)' },
+                'preparing': { label: 'Preparing', color: 'var(--color-purple)' },
+                'ready': { label: 'Ready', color: 'var(--color-green)' }
+            };
+
+            recentOrdersList.innerHTML = recent.map(o => {
+                const status = statusMap[o.status] || statusMap.pending;
+                return `
+                    <div class="order-item">
+                        <span class="order-status ${o.status}"></span>
+                        <div class="order-info">
+                            <div class="order-id">#${o.id} · ${o.items.length} items</div>
+                            <div class="order-details">₹${o.total} · ${status.label}</div>
+                        </div>
+                        <span class="order-time">${o.time}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ============================================================
+        // ===== CRUD OPERATIONS =====
+        // ============================================================
+
+        function updateStock(id, newStock) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            product.stock = newStock;
+            renderInventory();
+            showToast(`✅ ${product.name} stock updated to ${newStock}`);
+        }
+
+        function deleteProduct(id) {
+            const product = products.find(p => p.id === id);
+            products = products.filter(p => p.id !== id);
+            renderInventory();
+            showToast(`🗑️ ${product.name} removed from inventory`);
+        }
+
+        function addProduct() {
+            const name = document.getElementById('newProductName').value.trim();
+            const emoji = document.getElementById('newProductEmoji').value.trim() || '📦';
+            const price = parseInt(document.getElementById('newProductPrice').value);
+            const category = document.getElementById('newProductCategory').value.trim() || 'General';
+            const stock = parseInt(document.getElementById('newProductStock').value) || 0;
+
+            if (!name) {
+                showToast('⚠️ Please enter a product name.');
+                return;
+            }
+
+            if (isNaN(price) || price < 0) {
+                showToast('⚠️ Please enter a valid price.');
+                return;
+            }
+
+            const newProduct = {
+                id: nextProductId++,
+                name: name,
+                emoji: emoji,
+                price: price,
+                category: category,
+                stock: stock
+            };
+
+            products.push(newProduct);
+            renderInventory();
+
+            document.getElementById('newProductName').value = '';
+            document.getElementById('newProductEmoji').value = '';
+            document.getElementById('newProductPrice').value = '';
+            document.getElementById('newProductCategory').value = '';
+            document.getElementById('newProductStock').value = '';
+
+            showToast(`✅ ${name} added to inventory!`);
+        }
+
+        function addProductFromRequest(name, emoji) {
+            const existing = products.find(p => p.name.toLowerCase() === name.toLowerCase());
+            if (existing) {
+                showToast(`⚠️ ${name} already exists in inventory.`);
+                return;
+            }
+
+            const newProduct = {
+                id: nextProductId++,
+                name: name,
+                emoji: emoji || '📦',
+                price: 0,
+                category: 'General',
+                stock: 10
+            };
+
+            products.push(newProduct);
+
+            // Remove from requests
+            const requestIndex = requestedItems.findIndex(r => r.name === name);
+            if (requestIndex > -1) {
+                requestedItems.splice(requestIndex, 1);
+            }
+
+            renderInventory();
+            renderRequests();
+            showToast(`✅ ${name} added to inventory with 10 units!`);
+        }
+
+        function updateOrderStatus(id, newStatus) {
+            const order = orders.find(o => o.id === id);
+            if (!order) return;
+            order.status = newStatus;
+            renderOrders();
+            renderRecentOrders();
+            showToast(`✅ Order #${id} updated to ${newStatus}`);
+        }
+
+        // ============================================================
+        // ===== TAB SWITCHING =====
+        // ============================================================
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                const tabName = this.dataset.tab;
+                document.getElementById('inventoryTab').style.display = tabName === 'inventory' ? 'block' : 'none';
+                document.getElementById('ordersTab').style.display = tabName === 'orders' ? 'block' : 'none';
+
+                if (tabName === 'orders') {
+                    renderOrders();
+                }
+            });
+        });
+
+        // ============================================================
+        // ===== EVENT LISTENERS =====
+        // ============================================================
+
+        addProductBtn.addEventListener('click', addProduct);
+
+        inventorySearch.addEventListener('input', renderInventory);
+
+        orderSearch.addEventListener('input', renderOrders);
+
+        // Enter key for add product
+        document.querySelectorAll('.add-product-form input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addProduct();
+                }
+            });
+        });
+
+        // ============================================================
+        // ===== INIT =====
+        // ============================================================
+
+        renderInventory();
+        renderRequests();
+        renderRecentOrders();
+        updateStats();
+
+        console.log('🏪 Shopkeeper Dashboard — Campus Store');
+        console.log('📦 Products loaded:', products.length);
+        console.log('📋 Orders loaded:', orders.length);
+        console.log('📝 Requests loaded:', requestedItems.length);
+        console.log('✅ Dashboard ready!');
+    </script>
+</body>
+</html>
