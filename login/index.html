@@ -45,7 +45,7 @@
             justify-content: center;
             width: 56px;
             height: 56px;
-            background: #f97316;
+            background: #059669;
             border-radius: 14px;
             font-size: 1.8rem;
             margin-bottom: 12px;
@@ -59,7 +59,7 @@
         }
 
         .login-header h1 span {
-            color: #f97316;
+            color: #059669;
         }
 
         .login-header p {
@@ -99,7 +99,7 @@
 
         .role-option.active {
             background: #ffffff;
-            color: #f97316;
+            color: #059669;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
         }
 
@@ -133,7 +133,7 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: #f97316;
+            border-color: #059669;
             background: #ffffff;
         }
 
@@ -158,7 +158,7 @@
         }
 
         .form-options a {
-            color: #f97316;
+            color: #059669;
             text-decoration: none;
             font-weight: 600;
         }
@@ -170,7 +170,7 @@
         .btn-login-submit {
             width: 100%;
             padding: 14px;
-            background: #f97316;
+            background: #059669;
             color: #fff;
             border: none;
             border-radius: 12px;
@@ -181,7 +181,7 @@
         }
 
         .btn-login-submit:hover {
-            background: #ea580c;
+            background: #047857;
         }
 
         .btn-login-submit:active {
@@ -196,7 +196,7 @@
         }
 
         .login-footer a {
-            color: #f97316;
+            color: #059669;
             font-weight: 600;
             text-decoration: none;
         }
@@ -215,7 +215,7 @@
         }
 
         .back-home:hover {
-            color: #f97316;
+            color: #059669;
         }
 
         /* ===== CREDENTIALS HINT ===== */
@@ -517,7 +517,7 @@
 
             // ===== REDIRECT BASED ON ROLE =====
             if (user.role === 'student') {
-                window.location.href = '../index.html';  // Go to root index.html
+                window.location.href = 'student/index.html';
             } else if (user.role === 'shopkeeper') {
                 window.location.href = 'shopkeeper/index.html';
             }
@@ -547,7 +547,7 @@
             try {
                 const userData = JSON.parse(existingUser);
                 if (userData.role === 'student') {
-                    window.location.href = '../index.html';
+                    window.location.href = 'student/index.html';
                 } else if (userData.role === 'shopkeeper') {
                     window.location.href = 'shopkeeper/index.html';
                 }
@@ -566,7 +566,7 @@
         console.log('🎓 Student accounts:', Object.keys(users.student));
         console.log('🏪 Shopkeeper accounts:', Object.keys(users.shopkeeper));
         console.log('💡 Press "1" for Student, "2" for Shopkeeper');
-        console.log('📍 Redirecting to: ../index.html for students');
+        console.log('📍 Redirecting to: student/index.html for students');
     </script>
 </body>
 </html>
