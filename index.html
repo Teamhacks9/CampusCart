@@ -33,23 +33,25 @@
             --radius-full: 9999px;
             --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
+
         /* Prevent text selection and highlight popup */
-body {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-touch-callout: none;
-}
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
 
-/* Allow selection only on input fields (so users can type in filters) */
-input, select, textarea {
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-}
-
+        /* Allow selection only on input fields */
+        input,
+        select,
+        textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
 
         /* ===== RESET & BASE ===== */
         * {
@@ -181,12 +183,21 @@ input, select, textarea {
             gap: 10px;
         }
 
-        .brand-logo {
+        /* ===== LOGO STYLES ===== */
+        .brand-logo-img {
+            height: 36px;
+            width: auto;
+            display: block;
+            border-radius: var(--radius-sm);
+        }
+
+        /* Fallback if image doesn't load */
+        .brand-logo-img-error {
+            display: none;
             width: 32px;
             height: 32px;
             background: var(--color-primary);
             border-radius: var(--radius-sm);
-            display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
@@ -365,6 +376,25 @@ input, select, textarea {
 
         .mobile-menu .mobile-login .btn-login-mobile:hover {
             background: var(--color-primary-dark);
+        }
+
+        /* Mobile menu logo */
+        .mobile-brand {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .mobile-brand .brand-logo-img {
+            height: 32px;
+            width: auto;
+        }
+
+        .mobile-brand .brand-name {
+            font-size: 1.1rem;
         }
 
         /* ===== HERO ===== */
@@ -653,8 +683,13 @@ input, select, textarea {
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
         }
 
         /* ===== STATS ===== */
@@ -1039,6 +1074,18 @@ input, select, textarea {
                 flex-wrap: wrap;
                 justify-content: center;
             }
+
+            .mobile-brand {
+                display: flex !important;
+            }
+
+            .brand-logo-img {
+                height: 28px;
+            }
+
+            .brand-name {
+                font-size: 1rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1122,6 +1169,14 @@ input, select, textarea {
                 font-size: 1rem;
                 padding: 12px 0;
             }
+
+            .brand-logo-img {
+                height: 24px;
+            }
+
+            .brand-name {
+                font-size: 0.9rem;
+            }
         }
 
         @media (max-width: 360px) {
@@ -1138,16 +1193,6 @@ input, select, textarea {
             .hero-card .card-item {
                 font-size: 0.75rem;
             }
-            * {
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-            }
-
-            input,
-            textarea {
-            user-select: text;
-           -webkit-user-select: text;
         }
     </style>
 </head>
@@ -1157,8 +1202,12 @@ input, select, textarea {
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-brand">
-                <div class="brand-logo">🛍️</div>
-                <span class="brand-name">Uni<span>Cart</span></span>
+                <!-- ===== YOUR LOGO IMAGE ===== -->
+                <!-- Replace the URL below with your actual logo URL -->
+                <img src="https://raw.githubusercontent.com/Teamhacks9/CampusCart/main/images/logo.png" alt="Campus Store" class="brand-logo-img" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex';" />
+                <!-- Fallback logo if image fails to load -->
+                <div id="logoFallback" class="brand-logo-img-error" style="display:none;">🛍️</div>
+                <span class="brand-name">Campus<span>Store</span></span>
             </div>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#hero" class="active">Home</a></li>
@@ -1178,12 +1227,17 @@ input, select, textarea {
     <!-- ===== MOBILE MENU ===== -->
     <div class="mobile-overlay" id="mobileOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
+        <!-- Mobile menu logo -->
+        <div class="mobile-brand">
+            <img src="https://raw.githubusercontent.com/Teamhacks9/CampusCart/main/images/logo.png" alt="Campus Store" class="brand-logo-img" onerror="this.style.display='none'" />
+            <span class="brand-name">Campus<span>Store</span></span>
+        </div>
         <a href="#hero">🏠 Home</a>
         <a href="#how-it-works">📋 How It Works</a>
         <a href="#features">✨ Features</a>
         <a href="#about">ℹ️ About</a>
         <div class="mobile-login">
-            <button class="btn-login-mobile" id="mobileLoginBtn">🔑 Login</button>
+            <a href="login/" class="btn-login-mobile" id="mobileLoginBtn">🔑 Login</a>
         </div>
     </div>
 
@@ -1255,14 +1309,14 @@ input, select, textarea {
     </section>
 
     <!-- ===== STATS ===== -->
-    <!-- <section class="stats">
+    <section class="stats">
         <div class="container stats-grid">
             <div class="stat-item"><span class="stat-number">500+</span><span class="stat-label">Products Available</span></div>
             <div class="stat-item"><span class="stat-number">1000+</span><span class="stat-label">Happy Students</span></div>
             <div class="stat-item"><span class="stat-number">Fast</span><span class="stat-label">Order &amp; Pickup</span></div>
             <div class="stat-item"><span class="stat-number">Safe</span><span class="stat-label">Secure &amp; Reliable</span></div>
         </div>
-    </section> -->
+    </section>
 
     <!-- ===== PROBLEM ===== -->
     <section class="problem" id="about">
@@ -1437,14 +1491,20 @@ input, select, textarea {
         });
 
         // ===== LOGIN =====
-        // document.getElementById('loginBtn').addEventListener('click', () => alert('College login coming soon.'));
-       // ===== MOBILE LOGIN =====
-document.getElementById('mobileLoginBtn').addEventListener('click', () => {
-    window.location.href = 'login/';
-});
+        document.getElementById('loginBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'login/';
+        });
+
+        document.getElementById('mobileLoginBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'login/';
+        });
 
         // ===== EXPLORE STORE =====
-        document.getElementById('exploreBtn').addEventListener('click', () => alert('Store coming soon — we\'re building it!'));
+        document.getElementById('exploreBtn').addEventListener('click', function() {
+            window.location.href = 'login/';
+        });
 
         // ===== HOW IT WORKS =====
         document.getElementById('howItWorksBtn').addEventListener('click', () => {
@@ -1455,7 +1515,9 @@ document.getElementById('mobileLoginBtn').addEventListener('click', () => {
         document.getElementById('viewCartBtn').addEventListener('click', () => alert('Your cart is empty. Add some items first!'));
 
         // ===== GET STARTED =====
-        document.getElementById('getStartedBtn').addEventListener('click', () => alert('The platform is coming soon.'));
+        document.getElementById('getStartedBtn').addEventListener('click', function() {
+            window.location.href = 'login/';
+        });
 
         // ===== SMOOTH SCROLL =====
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1469,7 +1531,8 @@ document.getElementById('mobileLoginBtn').addEventListener('click', () => {
         });
 
         console.log('🏫 Campus Store — Smarter Campus Shopping');
-        console.log('✨ Premium design for hackathon');
+        console.log('✨ Premium design with custom logo support');
+        console.log('🔗 All CTAs redirect to login page');
     </script>
 </body>
 </html>
