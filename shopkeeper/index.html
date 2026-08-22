@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Shopkeeper Dashboard · Campus Store</title>
+    <title>Shopkeeper Dashboard · UniCart</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
@@ -15,12 +15,12 @@
             --color-primary-light: #34d399;
             --color-primary-bg: #ecfdf5;
             --color-secondary: #064e3b;
-            --color-bg: #f8f9fa;
+            --color-bg: #f0fdf4;
             --color-bg-card: #ffffff;
-            --color-text: #1a1a2e;
-            --color-text-muted: #4a4a6a;
-            --color-text-light: #8a8a9e;
-            --color-border: #e8e6e1;
+            --color-text: #064e3b;
+            --color-text-muted: #065f46;
+            --color-text-light: #6b7280;
+            --color-border: #d1fae5;
             --color-green: #059669;
             --color-green-bg: #ecfdf5;
             --color-red: #dc2626;
@@ -69,10 +69,12 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: #ffffff;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             padding: 12px 0;
             border-bottom: 1px solid var(--color-border);
+            box-shadow: 0 2px 20px rgba(5, 150, 105, 0.04);
         }
 
         .nav-container {
@@ -90,16 +92,11 @@
             gap: 10px;
         }
 
-        .brand-logo {
-            width: 32px;
+        /* ===== LOGO STYLES ===== */
+        .brand-logo-img {
             height: 32px;
-            background: var(--color-primary);
+            width: auto;
             border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 1.1rem;
         }
 
         .brand-name {
@@ -144,6 +141,7 @@
         .user-name {
             font-weight: 500;
             font-size: 0.85rem;
+            color: var(--color-text);
         }
 
         .btn-logout {
@@ -173,6 +171,7 @@
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
             font-weight: 700;
+            color: var(--color-text);
         }
 
         .dashboard-header p {
@@ -279,6 +278,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            color: var(--color-text);
         }
 
         .add-product-form {
@@ -358,6 +358,7 @@
         .table-header h3 {
             font-size: 1rem;
             font-weight: 700;
+            color: var(--color-text);
         }
 
         .table-header .search-box {
@@ -378,6 +379,7 @@
             font-family: inherit;
             padding: 6px 0;
             min-width: 160px;
+            color: var(--color-text);
         }
 
         .table-scroll {
@@ -514,6 +516,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            color: var(--color-text);
         }
 
         .sidebar-card h3 .badge {
@@ -549,6 +552,7 @@
         .request-item .req-name {
             font-weight: 600;
             font-size: 0.9rem;
+            color: var(--color-text);
         }
 
         .request-item .req-count {
@@ -755,6 +759,14 @@
             .dashboard-header h1 {
                 font-size: 1.4rem;
             }
+
+            .brand-logo-img {
+                height: 28px;
+            }
+
+            .brand-name {
+                font-size: 1rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -797,13 +809,11 @@
                 font-size: 0.6rem;
             }
 
-            .brand-name {
-                font-size: 1rem;
+            .brand-logo-img {
+                height: 24px;
             }
 
-            .brand-logo {
-                width: 28px;
-                height: 28px;
+            .brand-name {
                 font-size: 0.9rem;
             }
         }
@@ -815,8 +825,11 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-brand">
-                <div class="brand-logo">🛍️</div>
-                <span class="brand-name">Campus<span>Store</span></span>
+                <!-- ===== YOUR LOGO ===== -->
+                <a href="../index.html">
+                    <img src="https://raw.githubusercontent.com/Teamhacks9/CampusCart/main/images/logo1.png" alt="UniCart" class="brand-logo-img" onerror="this.style.display='none'" />
+                </a>
+                <a href="../index.html" class="brand-name">Uni<span>Cart</span></a>
             </div>
             <div class="nav-actions">
                 <div class="user-badge">
@@ -1478,7 +1491,7 @@
         renderRecentOrders();
         updateStats();
 
-        console.log('🏪 Shopkeeper Dashboard — Campus Store');
+        console.log('🏪 Shopkeeper Dashboard — UniCart');
         console.log('📦 Products loaded:', products.length);
         console.log('📋 Orders loaded:', orders.length);
         console.log('📝 Requests loaded:', requestedItems.length);
