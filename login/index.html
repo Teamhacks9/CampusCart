@@ -154,16 +154,6 @@
             cursor: pointer;
         }
 
-        .form-options a {
-            color: #059669;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .form-options a:hover {
-            text-decoration: underline;
-        }
-
         .btn-login-submit {
             width: 100%;
             padding: 14px;
@@ -175,6 +165,7 @@
             font-size: 1rem;
             cursor: pointer;
             transition: background 0.3s, transform 0.2s;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-login-submit:hover {
@@ -190,16 +181,6 @@
             margin-top: 20px;
             font-size: 0.85rem;
             color: #4a4a6a;
-        }
-
-        .login-footer a {
-            color: #059669;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .login-footer a:hover {
-            text-decoration: underline;
         }
 
         .back-home {
@@ -305,7 +286,6 @@
         <!-- ===== HEADER ===== -->
         <div class="login-header">
             <div style="display:flex; justify-content:center;">
-                <!-- ===== YOUR LOGO IMAGE ===== -->
                 <img src="https://raw.githubusercontent.com/Teamhacks9/CampusCart/main/images/logo1.png" 
                      alt="UniCart" 
                      class="brand-logo-img"
@@ -353,14 +333,11 @@
                 <label>
                     <input type="checkbox" checked /> Remember me
                 </label>
-                <a href="#">Forgot password?</a>
             </div>
             <button type="submit" class="btn-login-submit">Sign In →</button>
         </form>
 
         <div class="login-footer">
-            Don't have an account? <a href="#">Sign up</a>
-            <br />
             <a href="../index.html" class="back-home">← Back to Home</a>
         </div>
     </div>
@@ -492,6 +469,7 @@
                 return;
             }
 
+            // Get the user database for the selected role
             const userDB = users[selectedRole];
             if (!userDB) {
                 errorMessage.textContent = '⚠️ Invalid role selected.';
@@ -499,6 +477,7 @@
                 return;
             }
 
+            // Check if username exists in the selected role's database
             const user = userDB[username];
             if (!user) {
                 errorMessage.textContent = `⚠️ Username "${username}" not found. Please check your username or select the correct role.`;
@@ -506,6 +485,7 @@
                 return;
             }
 
+            // Check password
             if (user.password !== password) {
                 errorMessage.textContent = '⚠️ Incorrect password. Please try again.';
                 errorMessage.classList.add('show');
