@@ -250,31 +250,20 @@
             color: var(--color-red);
         }
 
-        /* ===== FILTER CHIPS WITH SCROLL BUTTONS ===== */
+        /* ===== FILTER CHIPS - WRAPPED ON MOBILE ===== */
         .filter-wrapper {
-            position: relative;
             padding: 4px 0 12px;
         }
 
         .filter-section {
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            scroll-behavior: smooth;
+            overflow: visible;
             padding: 2px 0;
-        }
-
-        .filter-section::-webkit-scrollbar {
-            display: none;
         }
 
         .filter-chips {
             display: flex;
             gap: 8px;
-            flex-wrap: nowrap;
-            width: max-content;
-            min-width: 100%;
+            flex-wrap: wrap;
         }
 
         .filter-chip {
@@ -321,38 +310,9 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Scroll buttons - hidden on desktop, visible on mobile */
+        /* ===== GREEN SCROLL BUTTON - HIDDEN NOW ===== */
         .filter-scroll-btn {
-            display: none;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--color-bg-card);
-            border: 1.5px solid var(--color-border);
-            box-shadow: var(--shadow-md);
-            color: var(--color-text);
-            font-size: 0.9rem;
-            z-index: 5;
-            transition: var(--transition);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .filter-scroll-btn:hover {
-            background: var(--color-primary);
-            color: #fff;
-            border-color: var(--color-primary);
-        }
-
-        .filter-scroll-btn.left {
-            left: -4px;
-        }
-
-        .filter-scroll-btn.right {
-            right: -4px;
+            display: none !important;
         }
 
         /* ===== RESULTS INFO ===== */
@@ -540,10 +500,12 @@
             color: var(--color-red);
         }
 
+        /* ===== PRODUCT ACTIONS - SIDE BY SIDE ===== */
         .product-actions {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             margin-top: 10px;
+            flex-direction: row !important;
         }
 
         .btn-add-cart {
@@ -556,6 +518,8 @@
             font-weight: 600;
             font-size: 0.8rem;
             transition: var(--transition);
+            min-width: 0;
+            white-space: nowrap;
         }
 
         .btn-add-cart:hover:not(:disabled) {
@@ -575,7 +539,7 @@
         }
 
         .btn-buy-now {
-            padding: 8px 14px;
+            padding: 8px 16px;
             background: var(--color-secondary);
             color: #fff;
             border: none;
@@ -583,6 +547,8 @@
             font-weight: 600;
             font-size: 0.8rem;
             transition: var(--transition);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .btn-buy-now:hover:not(:disabled) {
@@ -1256,11 +1222,6 @@
                 padding: 0 12px;
             }
 
-            /* Show scroll buttons on mobile */
-            .filter-scroll-btn {
-                display: flex !important;
-            }
-
             .cart-sidebar {
                 width: 100%;
                 right: -100%;
@@ -1292,14 +1253,18 @@
             }
 
             .product-actions {
-                flex-direction: column;
-                gap: 4px;
+                flex-direction: row !important;
+                gap: 6px;
             }
 
-            .btn-add-cart,
-            .btn-buy-now {
-                padding: 6px 10px;
+            .btn-add-cart {
                 font-size: 0.7rem;
+                padding: 6px 10px;
+            }
+
+            .btn-buy-now {
+                font-size: 0.7rem;
+                padding: 6px 12px;
             }
 
             .brand-logo-img {
@@ -1398,14 +1363,18 @@
             }
 
             .product-actions {
-                flex-direction: column;
+                flex-direction: row !important;
                 gap: 4px;
             }
 
-            .btn-add-cart,
-            .btn-buy-now {
-                padding: 5px 8px;
+            .btn-add-cart {
                 font-size: 0.65rem;
+                padding: 5px 8px;
+            }
+
+            .btn-buy-now {
+                font-size: 0.65rem;
+                padding: 5px 10px;
             }
 
             .product-stock-badge {
@@ -1413,6 +1382,11 @@
                 padding: 1px 8px;
                 top: 6px;
                 right: 6px;
+            }
+
+            /* ===== FILTERS IN 2 LINES ON MOBILE ===== */
+            .filter-chips {
+                gap: 6px;
             }
 
             .filter-chip {
@@ -1474,21 +1448,6 @@
             .requested-item .req-name {
                 font-size: 0.8rem;
             }
-
-            /* Smaller scroll buttons on mobile */
-            .filter-scroll-btn {
-                width: 26px;
-                height: 26px;
-                font-size: 0.7rem;
-            }
-
-            .filter-scroll-btn.left {
-                left: -2px;
-            }
-
-            .filter-scroll-btn.right {
-                right: -2px;
-            }
         }
 
         @media (max-width: 380px) {
@@ -1511,6 +1470,30 @@
 
             .product-name {
                 font-size: 0.75rem;
+            }
+
+            .product-actions {
+                flex-direction: row !important;
+                gap: 3px;
+            }
+
+            .btn-add-cart {
+                font-size: 0.6rem;
+                padding: 4px 6px;
+            }
+
+            .btn-buy-now {
+                font-size: 0.6rem;
+                padding: 4px 8px;
+            }
+
+            .filter-chips {
+                gap: 4px;
+            }
+
+            .filter-chip {
+                font-size: 0.65rem;
+                padding: 4px 10px;
             }
         }
     </style>
@@ -1552,11 +1535,9 @@
         </div>
     </div>
 
-    <!-- ===== FILTERS WITH SCROLL BUTTONS ===== -->
+    <!-- ===== FILTERS - WRAPPED ON MOBILE ===== -->
     <div class="container">
         <div class="filter-wrapper">
-            <button class="filter-scroll-btn left" id="scrollLeft" aria-label="Scroll filters left">‹</button>
-            <button class="filter-scroll-btn right" id="scrollRight" aria-label="Scroll filters right">›</button>
             <div class="filter-section" id="filterSection">
                 <div class="filter-chips" id="filterChips">
                     <button class="filter-chip active" data-filter="all">
@@ -1607,7 +1588,6 @@
     <div class="container">
         <div class="request-section">
             <div class="request-grid">
-                <!-- Request Form -->
                 <div class="request-card">
                     <h3>📝 Request an Item</h3>
                     <p>Can't find what you're looking for? Request it and help others discover it too!</p>
@@ -1618,16 +1598,13 @@
                     <div id="requestFeedback" class="request-feedback"></div>
                 </div>
 
-                <!-- Requested Items List -->
                 <div class="request-card">
                     <h3>
                         📋 Requested Items
                         <span class="request-count-badge" id="requestCount">0</span>
                     </h3>
                     <p>+1 to support items you also want. Most requested go to the shopkeeper.</p>
-                    <div class="requested-list" id="requestedList">
-                        <!-- Rendered by JavaScript -->
-                    </div>
+                    <div class="requested-list" id="requestedList"></div>
                 </div>
             </div>
         </div>
@@ -1637,7 +1614,6 @@
     <footer>
         <div class="container">
             <div class="footer-grid">
-                <!-- Brand Column -->
                 <div class="footer-brand">
                     <div class="brand-name">Uni<span>Cart</span></div>
                     <p class="footer-tagline">Making campus shopping faster and smarter.</p>
@@ -1649,7 +1625,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Links -->
                 <div class="footer-links">
                     <h4>Quick Links</h4>
                     <ul>
@@ -1660,7 +1635,6 @@
                     </ul>
                 </div>
 
-                <!-- Support -->
                 <div class="footer-links">
                     <h4>Support</h4>
                     <ul>
@@ -1671,7 +1645,6 @@
                     </ul>
                 </div>
 
-                <!-- Contact Info -->
                 <div class="footer-contact">
                     <h4>Get in Touch</h4>
                     <ul>
@@ -1682,7 +1655,6 @@
                 </div>
             </div>
 
-            <!-- Bottom Bar -->
             <div class="footer-bottom">
                 <span>© 2026 UniCart. All rights reserved.</span>
                 <span>
@@ -1722,71 +1694,7 @@
 
     <script>
         // ============================================================
-        // ===== FILTER SCROLL BUTTONS =====
-        // ============================================================
-
-        (function setupFilterScroll() {
-            const filterSection = document.getElementById('filterSection');
-            const scrollLeft = document.getElementById('scrollLeft');
-            const scrollRight = document.getElementById('scrollRight');
-
-            if (!filterSection || !scrollLeft || !scrollRight) return;
-
-            const scrollAmount = 200;
-
-            scrollLeft.addEventListener('click', function() {
-                filterSection.scrollBy({
-                    left: -scrollAmount,
-                    behavior: 'smooth'
-                });
-            });
-
-            scrollRight.addEventListener('click', function() {
-                filterSection.scrollBy({
-                    left: scrollAmount,
-                    behavior: 'smooth'
-                });
-            });
-
-            // Update button visibility based on scroll position
-            function updateScrollButtons() {
-                const maxScroll = filterSection.scrollWidth - filterSection.clientWidth;
-                const currentScroll = filterSection.scrollLeft;
-
-                if (maxScroll <= 0) {
-                    scrollLeft.style.display = 'none';
-                    scrollRight.style.display = 'none';
-                    return;
-                }
-
-                // Only show buttons on mobile (already handled by CSS)
-                // But we still check if we're at edges
-                if (currentScroll <= 10) {
-                    scrollLeft.style.opacity = '0.3';
-                    scrollLeft.style.cursor = 'default';
-                } else {
-                    scrollLeft.style.opacity = '1';
-                    scrollLeft.style.cursor = 'pointer';
-                }
-
-                if (currentScroll >= maxScroll - 10) {
-                    scrollRight.style.opacity = '0.3';
-                    scrollRight.style.cursor = 'default';
-                } else {
-                    scrollRight.style.opacity = '1';
-                    scrollRight.style.cursor = 'pointer';
-                }
-            }
-
-            filterSection.addEventListener('scroll', updateScrollButtons);
-            window.addEventListener('resize', updateScrollButtons);
-
-            // Initial update
-            setTimeout(updateScrollButtons, 100);
-        })();
-
-        // ============================================================
-        // ===== PRODUCT DATA WITH REAL IMAGES =====
+        // ===== PRODUCT DATA =====
         // ============================================================
 
         const products = [{
@@ -1856,7 +1764,7 @@
             id: 8,
             name: 'Mineral Water',
             emoji: '💧',
-            image: 'https://images.unsplash.com/photos/clear-plastic-bottle-on-white-table-edBR3b2JAuA?w=200&h=200&fit=crop&auto=format',
+            image: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=200&h=200&fit=crop&auto=format',
             price: 15,
             stock: 50,
             category: 'Beverages',
@@ -2500,9 +2408,7 @@
         console.log('🏪 UniCart — Student Shop Interface');
         console.log('📦 Products loaded:', products.length);
         console.log('📋 Requests loaded:', requestedItems.length);
-        console.log('🔍 Press Ctrl+K to focus search');
-        console.log('📄 Show More loads additional products');
-        console.log('📱 Filter scroll buttons added for mobile!');
+        console.log('✅ Filters now wrap to 2 lines on mobile!');
     </script>
 
 </body>
