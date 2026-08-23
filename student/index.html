@@ -250,34 +250,31 @@
             color: var(--color-red);
         }
 
-        /* ===== FILTER CHIPS - FIXED SCROLLING ===== */
-        .filter-section {
+        /* ===== FILTER CHIPS WITH SCROLL BUTTONS ===== */
+        .filter-wrapper {
+            position: relative;
             padding: 4px 0 12px;
+        }
+
+        .filter-section {
             overflow-x: auto;
             overflow-y: hidden;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-            position: relative;
-            touch-action: pan-x; /* Allow horizontal scrolling only */
-            cursor: grab;
+            scroll-behavior: smooth;
+            padding: 2px 0;
         }
 
         .filter-section::-webkit-scrollbar {
             display: none;
         }
 
-        .filter-section:active {
-            cursor: grabbing;
-        }
-
         .filter-chips {
             display: flex;
             gap: 8px;
-            padding: 2px 0;
             flex-wrap: nowrap;
             width: max-content;
             min-width: 100%;
-            pointer-events: auto; /* Ensure clicks work */
         }
 
         .filter-chip {
@@ -322,6 +319,40 @@
 
         .filter-chip.active .chip-count {
             background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Scroll buttons - hidden on desktop, visible on mobile */
+        .filter-scroll-btn {
+            display: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-bg-card);
+            border: 1.5px solid var(--color-border);
+            box-shadow: var(--shadow-md);
+            color: var(--color-text);
+            font-size: 0.9rem;
+            z-index: 5;
+            transition: var(--transition);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filter-scroll-btn:hover {
+            background: var(--color-primary);
+            color: #fff;
+            border-color: var(--color-primary);
+        }
+
+        .filter-scroll-btn.left {
+            left: -4px;
+        }
+
+        .filter-scroll-btn.right {
+            right: -4px;
         }
 
         /* ===== RESULTS INFO ===== */
@@ -1225,6 +1256,11 @@
                 padding: 0 12px;
             }
 
+            /* Show scroll buttons on mobile */
+            .filter-scroll-btn {
+                display: flex !important;
+            }
+
             .cart-sidebar {
                 width: 100%;
                 right: -100%;
@@ -1438,6 +1474,21 @@
             .requested-item .req-name {
                 font-size: 0.8rem;
             }
+
+            /* Smaller scroll buttons on mobile */
+            .filter-scroll-btn {
+                width: 26px;
+                height: 26px;
+                font-size: 0.7rem;
+            }
+
+            .filter-scroll-btn.left {
+                left: -2px;
+            }
+
+            .filter-scroll-btn.right {
+                right: -2px;
+            }
         }
 
         @media (max-width: 380px) {
@@ -1501,28 +1552,32 @@
         </div>
     </div>
 
-    <!-- ===== FILTERS - FIXED SCROLLING ===== -->
+    <!-- ===== FILTERS WITH SCROLL BUTTONS ===== -->
     <div class="container">
-        <div class="filter-section" id="filterSection">
-            <div class="filter-chips" id="filterChips">
-                <button class="filter-chip active" data-filter="all">
-                    All <span class="chip-count" id="countAll">0</span>
-                </button>
-                <button class="filter-chip" data-filter="beverages">
-                    🥤 Beverages <span class="chip-count" id="countBeverages">0</span>
-                </button>
-                <button class="filter-chip" data-filter="snacks">
-                    🍿 Snacks <span class="chip-count" id="countSnacks">0</span>
-                </button>
-                <button class="filter-chip" data-filter="stationery">
-                    📓 Stationery <span class="chip-count" id="countStationery">0</span>
-                </button>
-                <button class="filter-chip" data-filter="food">
-                    🍕 Food <span class="chip-count" id="countFood">0</span>
-                </button>
-                <button class="filter-chip" data-filter="in-stock">
-                    ✅ In Stock <span class="chip-count" id="countInStock">0</span>
-                </button>
+        <div class="filter-wrapper">
+            <button class="filter-scroll-btn left" id="scrollLeft" aria-label="Scroll filters left">‹</button>
+            <button class="filter-scroll-btn right" id="scrollRight" aria-label="Scroll filters right">›</button>
+            <div class="filter-section" id="filterSection">
+                <div class="filter-chips" id="filterChips">
+                    <button class="filter-chip active" data-filter="all">
+                        All <span class="chip-count" id="countAll">0</span>
+                    </button>
+                    <button class="filter-chip" data-filter="beverages">
+                        🥤 Beverages <span class="chip-count" id="countBeverages">0</span>
+                    </button>
+                    <button class="filter-chip" data-filter="snacks">
+                        🍿 Snacks <span class="chip-count" id="countSnacks">0</span>
+                    </button>
+                    <button class="filter-chip" data-filter="stationery">
+                        📓 Stationery <span class="chip-count" id="countStationery">0</span>
+                    </button>
+                    <button class="filter-chip" data-filter="food">
+                        🍕 Food <span class="chip-count" id="countFood">0</span>
+                    </button>
+                    <button class="filter-chip" data-filter="in-stock">
+                        ✅ In Stock <span class="chip-count" id="countInStock">0</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1667,63 +1722,67 @@
 
     <script>
         // ============================================================
-        // ===== FIX MOBILE SCROLLING FOR FILTERS =====
+        // ===== FILTER SCROLL BUTTONS =====
         // ============================================================
-        
-        (function fixFilterScrolling() {
+
+        (function setupFilterScroll() {
             const filterSection = document.getElementById('filterSection');
-            if (!filterSection) return;
+            const scrollLeft = document.getElementById('scrollLeft');
+            const scrollRight = document.getElementById('scrollRight');
 
-            let isDown = false;
-            let startX;
-            let scrollLeft;
+            if (!filterSection || !scrollLeft || !scrollRight) return;
 
-            // Touch events for mobile
-            filterSection.addEventListener('touchstart', (e) => {
-                isDown = true;
-                startX = e.touches[0].pageX - filterSection.offsetLeft;
-                scrollLeft = filterSection.scrollLeft;
-                filterSection.style.cursor = 'grabbing';
+            const scrollAmount = 200;
+
+            scrollLeft.addEventListener('click', function() {
+                filterSection.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
             });
 
-            filterSection.addEventListener('touchmove', (e) => {
-                if (!isDown) return;
-                e.preventDefault(); // Prevent page scrolling
-                const x = e.touches[0].pageX - filterSection.offsetLeft;
-                const walk = (x - startX) * 1.5;
-                filterSection.scrollLeft = scrollLeft - walk;
+            scrollRight.addEventListener('click', function() {
+                filterSection.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
             });
 
-            filterSection.addEventListener('touchend', () => {
-                isDown = false;
-                filterSection.style.cursor = 'grab';
-            });
+            // Update button visibility based on scroll position
+            function updateScrollButtons() {
+                const maxScroll = filterSection.scrollWidth - filterSection.clientWidth;
+                const currentScroll = filterSection.scrollLeft;
 
-            // Mouse events for desktop (optional)
-            filterSection.addEventListener('mousedown', (e) => {
-                isDown = true;
-                startX = e.pageX - filterSection.offsetLeft;
-                scrollLeft = filterSection.scrollLeft;
-                filterSection.style.cursor = 'grabbing';
-            });
+                if (maxScroll <= 0) {
+                    scrollLeft.style.display = 'none';
+                    scrollRight.style.display = 'none';
+                    return;
+                }
 
-            filterSection.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - filterSection.offsetLeft;
-                const walk = (x - startX) * 1.5;
-                filterSection.scrollLeft = scrollLeft - walk;
-            });
+                // Only show buttons on mobile (already handled by CSS)
+                // But we still check if we're at edges
+                if (currentScroll <= 10) {
+                    scrollLeft.style.opacity = '0.3';
+                    scrollLeft.style.cursor = 'default';
+                } else {
+                    scrollLeft.style.opacity = '1';
+                    scrollLeft.style.cursor = 'pointer';
+                }
 
-            filterSection.addEventListener('mouseup', () => {
-                isDown = false;
-                filterSection.style.cursor = 'grab';
-            });
+                if (currentScroll >= maxScroll - 10) {
+                    scrollRight.style.opacity = '0.3';
+                    scrollRight.style.cursor = 'default';
+                } else {
+                    scrollRight.style.opacity = '1';
+                    scrollRight.style.cursor = 'pointer';
+                }
+            }
 
-            filterSection.addEventListener('mouseleave', () => {
-                isDown = false;
-                filterSection.style.cursor = 'grab';
-            });
+            filterSection.addEventListener('scroll', updateScrollButtons);
+            window.addEventListener('resize', updateScrollButtons);
+
+            // Initial update
+            setTimeout(updateScrollButtons, 100);
         })();
 
         // ============================================================
@@ -2443,7 +2502,7 @@
         console.log('📋 Requests loaded:', requestedItems.length);
         console.log('🔍 Press Ctrl+K to focus search');
         console.log('📄 Show More loads additional products');
-        console.log('📱 Filter scrolling fixed on mobile!');
+        console.log('📱 Filter scroll buttons added for mobile!');
     </script>
 
 </body>
