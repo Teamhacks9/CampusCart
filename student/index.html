@@ -250,16 +250,24 @@
             color: var(--color-red);
         }
 
-        /* ===== FILTER CHIPS ===== */
+        /* ===== FILTER CHIPS - FIXED SCROLLING ===== */
         .filter-section {
             padding: 4px 0 12px;
             overflow-x: auto;
+            overflow-y: hidden;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
+            position: relative;
+            touch-action: pan-x; /* Allow horizontal scrolling only */
+            cursor: grab;
         }
 
         .filter-section::-webkit-scrollbar {
             display: none;
+        }
+
+        .filter-section:active {
+            cursor: grabbing;
         }
 
         .filter-chips {
@@ -267,6 +275,9 @@
             gap: 8px;
             padding: 2px 0;
             flex-wrap: nowrap;
+            width: max-content;
+            min-width: 100%;
+            pointer-events: auto; /* Ensure clicks work */
         }
 
         .filter-chip {
@@ -281,6 +292,9 @@
             white-space: nowrap;
             flex-shrink: 0;
             box-shadow: var(--shadow-sm);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
         }
 
         .filter-chip:hover {
@@ -1487,9 +1501,9 @@
         </div>
     </div>
 
-    <!-- ===== FILTERS ===== -->
+    <!-- ===== FILTERS - FIXED SCROLLING ===== -->
     <div class="container">
-        <div class="filter-section">
+        <div class="filter-section" id="filterSection">
             <div class="filter-chips" id="filterChips">
                 <button class="filter-chip active" data-filter="all">
                     All <span class="chip-count" id="countAll">0</span>
@@ -1652,6 +1666,66 @@
     <div class="toast" id="toast"></div>
 
     <script>
+        // ============================================================
+        // ===== FIX MOBILE SCROLLING FOR FILTERS =====
+        // ============================================================
+        
+        (function fixFilterScrolling() {
+            const filterSection = document.getElementById('filterSection');
+            if (!filterSection) return;
+
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            // Touch events for mobile
+            filterSection.addEventListener('touchstart', (e) => {
+                isDown = true;
+                startX = e.touches[0].pageX - filterSection.offsetLeft;
+                scrollLeft = filterSection.scrollLeft;
+                filterSection.style.cursor = 'grabbing';
+            });
+
+            filterSection.addEventListener('touchmove', (e) => {
+                if (!isDown) return;
+                e.preventDefault(); // Prevent page scrolling
+                const x = e.touches[0].pageX - filterSection.offsetLeft;
+                const walk = (x - startX) * 1.5;
+                filterSection.scrollLeft = scrollLeft - walk;
+            });
+
+            filterSection.addEventListener('touchend', () => {
+                isDown = false;
+                filterSection.style.cursor = 'grab';
+            });
+
+            // Mouse events for desktop (optional)
+            filterSection.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - filterSection.offsetLeft;
+                scrollLeft = filterSection.scrollLeft;
+                filterSection.style.cursor = 'grabbing';
+            });
+
+            filterSection.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - filterSection.offsetLeft;
+                const walk = (x - startX) * 1.5;
+                filterSection.scrollLeft = scrollLeft - walk;
+            });
+
+            filterSection.addEventListener('mouseup', () => {
+                isDown = false;
+                filterSection.style.cursor = 'grab';
+            });
+
+            filterSection.addEventListener('mouseleave', () => {
+                isDown = false;
+                filterSection.style.cursor = 'grab';
+            });
+        })();
+
         // ============================================================
         // ===== PRODUCT DATA WITH REAL IMAGES =====
         // ============================================================
@@ -2369,7 +2443,7 @@
         console.log('📋 Requests loaded:', requestedItems.length);
         console.log('🔍 Press Ctrl+K to focus search');
         console.log('📄 Show More loads additional products');
-        console.log('📱 Footer added successfully!');
+        console.log('📱 Filter scrolling fixed on mobile!');
     </script>
 
 </body>
